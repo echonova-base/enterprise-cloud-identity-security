@@ -1,0 +1,11 @@
+# Temporary/editor files
+~$*
+*.tmp
+*.temp
+
+# Windows noise
+Thumbs.db
+Desktop.ini
+
+# VS Code local settings
+.vscode/

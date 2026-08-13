@@ -1,0 +1,21 @@
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+
+    <!-- Event ID 1: Process Creation -->
+    <ProcessCreate onmatch="exclude">
+    </ProcessCreate>
+
+    <!-- Event ID 3: Network Connection -->
+    <NetworkConnect onmatch="exclude">
+    </NetworkConnect>
+
+    <!-- Event ID 11: File Creation -->
+    <FileCreate onmatch="exclude">
+    </FileCreate>
+
+    <!-- Event ID 13: Registry Value Set -->
+    <RegistryEvent onmatch="exclude">
+    </RegistryEvent>
+
+  </EventFiltering>
+</Sysmon>
