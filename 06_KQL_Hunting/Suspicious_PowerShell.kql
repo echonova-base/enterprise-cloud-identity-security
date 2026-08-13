@@ -1,0 +1,8 @@
+// North Bridge Group
+// Hunt: Suspicious PowerShell Execution
+// Status: DRAFT - validate against live telemetry schema
+
+SecurityEvent
+| where Process has "powershell"
+| project TimeGenerated, Computer, Account, Process, CommandLine
+| order by TimeGenerated desc
