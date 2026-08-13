@@ -9,3 +9,6 @@ Desktop.ini
 
 # VS Code local settings
 .vscode/
+
+# Internal project tracking
+PROJECT_STATUS.md
