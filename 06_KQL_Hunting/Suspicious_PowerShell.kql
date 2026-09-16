@@ -1,8 +1,17 @@
 // North Bridge Group
-// Hunt: Suspicious PowerShell Execution
-// Status: DRAFT - validate against live telemetry schema
+// Hunt: Encoded PowerShell Execution
+// Status: VALIDATED against live Sysmon telemetry in Log Analytics
 
-SecurityEvent
-| where Process has "powershell"
-| project TimeGenerated, Computer, Account, Process, CommandLine
+Event
+| where EventLog == "Microsoft-Windows-Sysmon/Operational"
+| where EventID == 1
+| extend Image = extract(@"Image:\s*([^\r\n]+?)\s+FileVersion:", 1, RenderedDescription)
+| extend CommandLine = extract(@"CommandLine:\s*([^\r\n]+?)\s+CurrentDirectory:", 1, RenderedDescription)
+| extend ProcessId = extract(@"ProcessId:\s*(\d+)", 1, RenderedDescription)
+| extend ParentProcessId = extract(@"ParentProcessId:\s*(\d+)", 1, RenderedDescription)
+| extend ParentImage = extract(@"ParentImage:\s*([^\r\n]+?)\s+ParentCommandLine:", 1, RenderedDescription)
+| where Image endswith @"\powershell.exe" or Image endswith @"\pwsh.exe"
+| where CommandLine contains "-EncodedCommand" or CommandLine contains "-enc "
+| project TimeGenerated, Computer, ProcessId, Image, CommandLine, ParentProcessId, ParentImage
 | order by TimeGenerated desc
+
